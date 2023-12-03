@@ -1,0 +1,46 @@
+# smart-home-controller-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-home-controller
+spec:
+  replicas: 3  # Adjust the number of replicas based on your scalability needs
+  selector:
+    matchLabels:
+      app: smart-home-controller
+  template:
+    metadata:
+      labels:
+        app: smart-home-controller
+    spec:
+      containers:
+        - name: smart-home-controller
+          image: surajkarthicverticurl/smart-home-controller:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smart-home-controller-svc
+spec:
+  selector:
+    app: smart-home-controller
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smart-home-controller-nodeport
+spec:
+  selector:
+    app: smart-home-controller
+  ports:
+    - protocol: TCP
+      port: 30003  # Choose a port that is available and makes sense for your setup
+      targetPort: 5000
+  type: NodePort

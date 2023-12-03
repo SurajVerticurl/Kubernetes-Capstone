@@ -1,0 +1,25 @@
+Commands for applying deployment and services:
+
+kubectl apply -f smart-home-controller-deployment.yaml
+kubectl apply -f get-home-parameter-deployment.yaml
+kubectl apply -f risk-predictor-deployment.yaml
+
+
+Command to list the pods, deployments, services:
+
+kubectl get po
+kubectl get deployments
+kubectl get svc
+
+Command to delete the pods, deployments, services:
+
+kubectl delete deployments --all
+kubectl delete services --all
+kubectl delete pods --all
+
+Command to check the logs:
+
+kubectl logs <pod-name>
+
+
+
