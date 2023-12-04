@@ -1,0 +1,48 @@
+# risk-predictor-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: risk-predictor
+spec:
+  replicas: 3  # Adjust the number of replicas based on your scalability needs
+  selector:
+    matchLabels:
+      app: risk-predictor
+  template:
+    metadata:
+      labels:
+        app: risk-predictor
+    spec:
+      imagePullSecrets:
+        - name: ecr-secret
+      containers:
+        - name: risk-predictor
+          image: 267092042432.dkr.ecr.us-east-1.amazonaws.com/suraj-repo2:rp
+          ports:
+            - containerPort: 5002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: risk-predictor-svc
+spec:
+  selector:
+    app: risk-predictor
+  ports:
+    - protocol: TCP
+      port: 5002
+      targetPort: 5002
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: risk-predictor-nodeport
+spec:
+  selector:
+    app: risk-predictor
+  ports:
+    - protocol: TCP
+      port: 30002  # Choose a port that is available and makes sense for your setup
+      targetPort: 5002
+  type: NodePort

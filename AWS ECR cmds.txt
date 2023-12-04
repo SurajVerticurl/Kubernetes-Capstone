@@ -1,0 +1,23 @@
+# AWS ECR tag and push commands:
+
+docker tag smart-home-controller:latest 267092042432.dkr.ecr.us-east-1.amazonaws.com/suraj-repo2:sm
+docker tag get-home-parameter:latest 267092042432.dkr.ecr.us-east-1.amazonaws.com/suraj-repo2:gp
+docker tag risk-predictor:latest 267092042432.dkr.ecr.us-east-1.amazonaws.com/suraj-repo2:rp
+
+docker push 267092042432.dkr.ecr.us-east-1.amazonaws.com/smart-home-controller:sm
+docker push 267092042432.dkr.ecr.us-east-1.amazonaws.com/suraj-repo2:gp
+docker push 267092042432.dkr.ecr.us-east-1.amazonaws.com/suraj-repo2:rp
+
+----------------SECRET CREATION FOR PRIVATE REPOSITORY-------------------------------
+
+#Reference:
+
+https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html
+https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html
+
+--> aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 267092042432.dkr.ecr.us-east-1.amazonaws.com
+(Get-ECRLoginCommand).Password | docker login --username AWS --password-stdin 267092042432.dkr.ecr.us-east-1.amazonaws.com
+
+--> kubectl create secret docker-registry ecr-secret --docker-server=267092042432.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS --docker-password=$(aws ecr get-login-password --region us-east-1) --docker-email=dummy@example.com
+
+#cmd - kubectl get secrets
