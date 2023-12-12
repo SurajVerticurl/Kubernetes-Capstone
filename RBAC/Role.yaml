@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  verbs: ["get", "watch", "list"]                      #so anyone with this role can get, watch and list the pods
+  resources: ["pods", "pods/log"]
+  # resourceNames: ["nginx"]
